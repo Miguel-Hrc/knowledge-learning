@@ -24,7 +24,7 @@ security:
         main:
             pattern: ^/
             lazy: true
-            provider: mongo_user_provider #orm_user_provider
+            provider: orm_user_provider #mongo_user_provider 
             custom_authenticator:
                 - App\Security\MongoAuthenticator
                 - App\Security\OrmAuthenticator
@@ -41,3 +41,4 @@ security:
         - { path: ^/lesson, roles: ROLE_CLIENT }
         - { path: ^/cart, roles: ROLE_CLIENT }
         - { path: ^/admin, roles: ROLE_ADMIN }
+
