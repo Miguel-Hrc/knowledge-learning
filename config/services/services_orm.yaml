@@ -1,0 +1,49 @@
+
+services:
+
+    Symfony\Component\Security\Core\User\UserProviderInterface: '@App\Security\OrmUserProvider'
+    
+    App\Service\StripeService:
+        public: true
+        arguments:
+            $stripeSecretKey: '%stripe.secret_key%'
+            $urlGenerator: '@router.default'
+            $entityManager: '@?doctrine.orm.entity_manager'
+
+    App\Security\OrmUserProvider:
+        arguments:
+            $em: '@doctrine.orm.entity_manager'
+        tags: ['security.user_provider']
+
+    App\EventListener\ThemeListener:
+        arguments:
+            $tokenStorage: '@security.token_storage'
+        tags:
+            - { name: doctrine.orm.entity_listener, event: prePersist, entity: App\Entity\Theme, method: prePersist }
+            - { name: doctrine.orm.entity_listener, event: preUpdate, entity: App\Entity\Theme, method: preUpdate }
+
+    App\EventListener\LessonListener:
+        arguments:
+            $tokenStorage: '@security.token_storage'
+        tags:
+            - { name: doctrine.orm.entity_listener, event: prePersist, entity: App\Entity\Theme, method: prePersist }
+            - { name: doctrine.orm.entity_listener, event: preUpdate, entity: App\Entity\Theme, method: preUpdate }
+
+    App\EventListener\CourseListener:
+        arguments:
+            $tokenStorage: '@security.token_storage'
+        tags:
+            - { name: doctrine.orm.entity_listener, event: prePersist, entity: App\Entity\Theme, method: prePersist }
+            - { name: doctrine.orm.entity_listener, event: preUpdate, entity: App\Entity\Theme, method: preUpdate }
+
+    App\EventListener\CertificationListener:
+        arguments:
+            $tokenStorage: '@security.token_storage'
+        tags:
+            - { name: doctrine.orm.entity_listener, event: prePersist, entity: App\Entity\Theme, method: prePersist }
+            - { name: doctrine.orm.entity_listener, event: preUpdate, entity: App\Entity\Theme, method: preUpdate }
+    
+    App\Security\OrmAuthenticator:
+        arguments:
+            $userProvider: '@security.user.provider.concrete.orm_user_provider'
+            $kernel: '@kernel'

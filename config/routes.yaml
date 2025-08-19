@@ -1,0 +1,19 @@
+#home:
+#    path: /
+#    controller: App\Controller\HomeController::index
+
+controllers:
+    resource: ../src/Controller/
+    type: attribute
+
+app_login_sql:
+    path: /login-sql
+    methods: [GET, POST]
+    controller: App\Controller\SecurityController::loginSql
+
+app_login_mongo:
+    path: /login-mongo
+    methods: [GET, POST]
+    controller: App\Controller\SecurityController::loginMongo
+
+    

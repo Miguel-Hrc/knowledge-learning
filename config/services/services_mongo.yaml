@@ -1,0 +1,59 @@
+
+services:
+    Doctrine\Persistence\ManagerRegistry:
+        alias: doctrine_mongodb
+    
+    Symfony\Component\Security\Core\User\UserProviderInterface: '@App\Security\MongoUserProvider'
+
+    App\Service\StripeServiceMongo:
+        public: true
+        arguments:
+            $stripeSecretKey: '%stripe.secret_key%'
+            $urlGenerator: '@router.default'
+            $documentManager: '@doctrine_mongodb.odm.document_manager'
+
+    App\Security\MongoUserProvider:
+        arguments:
+            $dm: '@doctrine_mongodb.odm.document_manager'
+        tags: ['security.user_provider']
+
+    App\EventListener\ThemeListenerMongo:
+        arguments:
+            $tokenStorage: '@security.token_storage'
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: prePersist }
+            - { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
+
+    App\EventListener\LessonListenerMongo:
+        arguments:
+            $tokenStorage: '@security.token_storage'
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: prePersist }
+            - { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
+
+    App\EventListener\CourseListenerMongo:
+        arguments:
+            $tokenStorage: '@security.token_storage'
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: prePersist }
+            - { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
+
+    App\EventListener\CertificationListenerMongo:
+        arguments:
+            $tokenStorage: '@security.token_storage'
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: prePersist }
+            - { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
+
+    App\Security\MongoAuthenticator:
+        arguments:
+            $userProvider: '@security.user.provider.concrete.mongo_user_provider'
+            
+
+    App\Repository\UserRepositoryMongo:
+      arguments:
+          $dm: '@doctrine_mongodb.odm.document_manager'
+    
+    App\Repository\CommandRepository:
+        arguments:
+            $dm: '@doctrine_mongodb.odm.document_manager'

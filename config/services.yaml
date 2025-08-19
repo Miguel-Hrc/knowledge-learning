@@ -1,0 +1,53 @@
+parameters:
+    uploads_directory: '%kernel.project_dir%/public/images/sweatshirt'
+    stripe.secret_key: '%env(STRIPE_SECRET_KEY)%'
+    stripe.public_key: '%env(STRIPE_PUBLIC_KEY)%'
+    app.use_mongo_user: '%env(bool:USE_MONGODB)%'
+    app.data_source: '%env(DATA_SOURCE)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Service\UserDataAccessValidator: ~
+
+    App\EventListener\AccessDeniedExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Service/StripeService.php'
+            - '../src/Service/StripeServiceMongo.php'
+            
+    App\Controller\CartController:
+            arguments:
+                $params: '@parameter_bag'
+                $em: '@?doctrine.orm.entity_manager'
+                $dm: '@?doctrine_mongodb.odm.document_manager'
+                $validator: '@App\Service\UserDataAccessValidator'
+                $tokenStorage: '@security.token_storage'
+                $authChecker: '@security.authorization_checker'
+                $urlGenerator: '@router'
+                $twig: '@twig'
+            tags: ['controller.service_arguments']
+            public: true
+    
+    App\Security\FallbackAuthenticator:
+        arguments:
+            $ormAuthenticator: '@App\Security\OrmAuthenticator'
+            $mongoAuthenticator: '@App\Security\MongoAuthenticator'
+    
+    doctrine.orm.container_entity_listener_resolver:
+        alias: App\Resolver\ContainerEntityListenerResolver
+        public: true
+
+    App\Resolver\ContainerEntityListenerResolver:
+        public: true
+        arguments:
+            - '@service_container'

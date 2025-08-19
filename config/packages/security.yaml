@@ -1,0 +1,43 @@
+security:
+    role_hierarchy:
+        ROLE_CLIENT: [ROLE_USER]
+        ROLE_ADMIN: [ROLE_CLIENT]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+
+    password_hashers:
+        App\Entity\User:
+            algorithm: auto
+        App\Document\UserDocument:
+            algorithm: auto
+
+    providers:
+        orm_user_provider:
+            id: App\Security\OrmUserProvider
+        mongo_user_provider:
+            id: App\Security\MongoUserProvider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+            lazy: true
+            provider: mongo_user_provider #orm_user_provider
+            custom_authenticator:
+                - App\Security\MongoAuthenticator
+                - App\Security\OrmAuthenticator
+                - App\Security\FallbackAuthenticator
+            logout:
+                path: /logout
+                target: /
+            stateless: false
+            context: main
+
+    access_control:
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/logout, roles: PUBLIC_ACCESS }
+        - { path: ^/lesson, roles: ROLE_CLIENT }
+        - { path: ^/cart, roles: ROLE_CLIENT }
+        - { path: ^/admin, roles: ROLE_ADMIN }
