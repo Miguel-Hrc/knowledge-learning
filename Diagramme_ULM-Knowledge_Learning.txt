@@ -1,0 +1,114 @@
++----------------------+
+|     Utilisateur      |
++----------------------+
+| - id : int           |
+| - email : string     |
+| - motDePasse : string|
+| - roles : array      |
+| - isVerified : bool  |
+| - created_at : Date  |
+| - updated_at : Date  |
++----------------------+
+| +sInscrire()         |
+| +seConnecter()       |
+| +validerLeçon()      |
++----------------------+
+         |
+         | 1
+         |       
+         | 0..*
++----------------------+
+|      Commande        |
++----------------------+
+| - id : int           |
+| - created_at : Date  |
+| - updated_at : Date  |
+| - created_by : User  |
+| - updated_by : User  |
++----------------------+
+| +ajouterProduit()    |
+| +payer()             |
++----------------------+
+         |
+         | 1
+         |
+         | 0..1
++----------------------+
+|       Paiement       |
++----------------------+
+| - id : int           |
+| - date : Date        |
+| - montant : float    |
+| - moyen : string     |
+| - created_at : Date  |
+| - updated_at : Date  |
+| - created_by : User  |
+| - updated_by : User  |
++----------------------+
+         | *
+         | 1
++----------------------+
+|        Thème         |
++----------------------+
+| - id : int           |
+| - nom : string       |
+| - created_at : Date  |
+| - updated_at : Date  |
+| - created_by : User  |
+| - updated_by : User  |
++----------------------+
+| +listerCursus()      |
++----------------------+
+         |
+         | 1..*
+         |
+         | 1
++----------------------+
+|        Cursus        |
++----------------------+
+| - id : int           |
+| - titre : string     |
+| - prix : float       |
+| - created_at : Date  |
+| - updated_at : Date  |
+| - created_by : User  |
+| - updated_by : User  |
++----------------------+
+| +ajouterLeçon()      |
++----------------------+
+         |
+         | 1..*
+         |
+         | 1
++----------------------+
+|        Leçon         |
++----------------------+
+| - id : int           |
+| - titre : string     |
+| - videoNom : string  |
+| - videoFile : File   |
+|   (transient)        |
+| - contenu : text     |
+| - prix : float       |
+| - created_at : Date  |
+| - updated_at : Date  |
+| - created_by : User  |
+| - updated_by : User  |
++----------------------+
+| +afficherContenu()   |
+| +valider()           |
++----------------------+
+         | 1
+         | 0..*
++----------------------+
+|    Certification     |
++----------------------+
+| - id : int           |
+| - thème : Thème      |
+| - utilisateur : User |
+| - isObtenue : bool   |
+| - created_at : Date  |
+| - updated_at : Date  |
+| - created_by : User  |
+| - updated_by : User  |
++----------------------+
