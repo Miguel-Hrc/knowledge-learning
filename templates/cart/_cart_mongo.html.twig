@@ -1,0 +1,40 @@
+   
+        {% for course in coursesMongo %}
+        <div id="container" class="row d-flex text-center justify-content-between" style="margin: 2vw; background-color: #FFFFFF; width: 75vw; height: 30vh">
+            <div id="container" class="col-4  d-flex align-items-center justify-content-center" style=" background-color: #F1F8FC; width: 20vw; height: 25vh">
+                <p>{{ course.theme.name }} </p>
+            </div>
+            <div id="container" class="col-4 d-flex align-items-center justify-content-center" style=" background-color: #F1F8FC; width: 20vw;height: 25vh">
+                <p>{{ course.title }} </p>
+            </div>
+            <div id="container" class="col-4 d-flex align-items-center justify-content-center" style=" background-color: #F1F8FC; width: 20vw; height: 25vh">
+                <p>{{ course.price }} €</p>
+            </div>
+        </div> 
+            {% else %}
+        <div id="container" class="row d-flex text-center justify-content-between" style="margin: 2vw; background-color: #FFFFFF; width: 75vw; height: 30vh">
+            <p class="col-4 d-flex align-items-center justify-content-center">Aucun cursus</p>
+        </div> 
+        {% endfor %}
+
+    
+        {% for lesson in lessonsMongo %}
+        <div id="container" class="row d-flex text-center justify-content-between" style="margin: 2vw; background-color: #FFFFFF; width: 75vw; height: 30vh">
+            <div id="container" class="col-3  d-flex align-items-center justify-content-center" style=" background-color: #F1F8FC; width: 15vw; height: 25vh">
+                <p>{{ lesson.course.theme.name }} </p>
+            </div>
+            <div id="container" class="col-3 d-flex align-items-center justify-content-center" style=" background-color: #F1F8FC; width: 15vw;height: 25vh">
+                <p>{{ lesson.course.title }} </p>
+            </div>
+            <div id="container" class="col-3 d-flex align-items-center justify-content-center" style=" background-color: #F1F8FC; width: 15; height: 25vh">
+                <p>{{ lesson.title }}</p>
+            </div>
+            <div id="container" class="col-3 d-flex align-items-center justify-content-center" style=" background-color: #F1F8FC; width: 15vw; height: 25vh">
+                <p>{{ lesson.price }} €</p>
+            </div>
+        </div> 
+            {% else %}
+        <div id="container" class="row d-flex text-center justify-content-between" style="margin: 2vw; background-color: #FFFFFF; width: 75vw; height: 30vh">
+            <p class="col-4 d-flex align-items-center justify-content-center">Aucune leçon</p>
+        </div>     
+        {% endfor %}

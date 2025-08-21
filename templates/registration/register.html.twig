@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block body %}
+    {% if not app.user %}
+        <header>
+            <div class="border-bottom-0" id="container">
+                <div class="row d-flex justify-content-evenly align-items-center">
+                    <div class="col-md-2 d-flex flex-column ">
+                        <img src="{{ asset('images/logo/logo.jpg') }}" alt="Logo" style="width: 150px; margin-left:2.5vw">
+                    </div>
+                    <div class="col-md-8">
+                        <nav class=" col-md-12 d-flex justify-content-evenly  ">
+                            <a href="{{ path('app_home') }}" class="text-decoration-none">accueil</a>
+                            <a href="{{ path('app_register') }}" class="text-decoration-none" style="color: #00497C" >s'inscrire</a>
+                            {% set loginRoute = dataSource == 'mongodb' ? 'app_login_mongo' : 'app_login_sql' %}
+                            <a href="{{ path(loginRoute) }}" class="text-decoration-none"  >se connecter</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endif %}
+<div id="container" style="height: 90vh" >
+    <div id="container" style="margin: 5vw; background-color: #F1F8FC; width: 50vw; margin-left:25%; padding-bottom: 15vh" >
+        {% if dataSource in ['orm', 'both'] %}
+            <div class="row d-flex" >
+                <h2 class="col d-flex justify-content-center align-items-center">S'inscrire</h2>
+                {{ form_start(registrationFormSql, { attr: { class: 'row' } }) }}
+                    <div class="row" style="margin-top: 2vh">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="d-flex flex-column align-items-start w-50">
+                                <p>email :</p>
+                                {{ form_row(registrationFormSql.email, {
+                                    label: false,
+                                    attr: {  style:"width: 25vw;"}
+                                }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="d-flex flex-column align-items-start w-50">
+                                <p>mot de passe :</p>
+                                {{ form_row(registrationFormSql.plainPassword.first, {
+                                    label: false,
+                                    attr: {  style:"width: 25vw;"}
+                                }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="d-flex flex-column align-items-start w-50">
+                                <p>confirmer mot de passe :</p>
+                                {{ form_row(registrationFormSql.plainPassword.second, {
+                                    label: false,
+                                    attr: {  style:"width: 25vw;"}
+                                }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="align-items-start w-50">
+                            <button class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="margin-top: 2vh" >créer un compte</button>
+                        </div>
+                    </div>
+                {{ form_end(registrationFormSql) }}
+                <div class="row" style="margin-top: 2vh">
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="d-flex flex-column align-items-start w-50">
+                            <p>déjà isncrit ?</p>
+                            {% set loginRoute = dataSource == 'mongodb' ? 'app_login_mongo' : 'app_login_sql' %}
+                            <a href="{{ path(loginRoute) }}" 
+                            class="btn btn-outline-dark d-flex align-items-center justify-content-center" 
+                            id="button" 
+                            style="margin-top: 2vh">
+                            se connecter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        {% endif %}
+        
+        {% if dataSource in ['mongodb', 'both'] %}
+            <div class="row d-flex" >
+                <h2 class="col d-flex justify-content-center align-items-center">S'inscrire</h2>
+                {{ form_start(registrationFormMongo, { attr: { class: 'row' } }) }}
+                    <div class="row" style="margin-top: 2vh">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="d-flex flex-column align-items-start w-50">
+                                <p>email :</p>
+                                {{ form_row(registrationFormMongo.email, {
+                                    label: false,
+                                    attr: {  style:"width: 25vw;"}
+                                }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="d-flex flex-column align-items-start w-50">
+                                <p>mot de passe :</p>
+                                {{ form_row(registrationFormMongo.plainPassword.first, {
+                                    label: false,
+                                    attr: {  style:"width: 25vw;"}
+                                }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="d-flex flex-column align-items-start w-50">
+                                <p>confirmer mot de passe :</p>
+                                {{ form_row(registrationFormMongo.plainPassword.second, {
+                                    label: false,
+                                    attr: {  style:"width: 25vw;"}
+                                }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="align-items-start w-50">
+                            <button class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="margin-top: 2vh" >créer un compte</button>
+                        </div>
+                    </div>
+                {{ form_end(registrationFormMongo) }}
+                    
+                <div class="row" style="margin-top: 2vh">
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="d-flex flex-column align-items-start w-50">
+                            <p>déjà isncrit ?</p>
+                            {% set loginRoute = dataSource == 'mongodb' ? 'app_login_mongo' : 'app_login_sql' %}
+                            <a href="{{ path(loginRoute) }}" 
+                            class="btn btn-outline-dark d-flex align-items-center justify-content-center" 
+                            id="button" 
+                            style="margin-top: 2vh">
+                            se connecter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

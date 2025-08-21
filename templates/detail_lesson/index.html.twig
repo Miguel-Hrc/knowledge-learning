@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail{% endblock %}
+{% block body %}
+    {% if app.user %}
+        <header>
+            <div class="border-bottom-0" id="container" >
+                <div class="row d-flex justify-content-evenly align-items-center">
+                    <div class="col-md-2 d-flex flex-column">
+                        <img src="{{ asset('images/logo/logo.jpg') }}" alt="Logo" style="width: 150px; margin-left:2.5vw">
+                    </div>
+                    <div class="col-md-8">
+                        <nav class="col-md-12 d-flex justify-content-between">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_admin') }}" class="text-decoration-none">back-office</a>
+                            {% endif %}
+                            <a href="{{ path('app_home') }}" class="text-decoration-none">accueil</a>
+                            <a href="{{ path('app_list_theme') }}" class="text-decoration-none">thèmes</a>
+                            <a href="{{ path('app_my_space') }}" class="text-decoration-none">mon espace</a>
+                            <a href="{{ path('app_cart') }}" class="text-decoration-none" >panier</a>
+                            <a href="{{ path('app_logout') }}" class="text-decoration-none" >se déconnecter</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endif %}
+    <div id="container" style="padding-bottom: 15vh" >
+        <div id="container" class="row" style="margin: 5vw; background-color: #F1F8FC">
+            {% if source == 'orm' and dataSource in ['orm', 'both'] %}
+                        <h2 style="margin-top: 2vw; margin-left: 5vw" >{{ lesson.title }}</h2>
+                        <div class="row">
+                            <p  class="col" style="margin-top: 2vw; margin-left: 20vw">{{ lesson.content }}</p>
+                        </div>
+                        <a href="{{ path('validate_lesson', { id: lesson.id, source: 'orm' }) }}" class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="margin-top: 3vw; margin-left: 5vw">
+                            Valider
+                        </a>
+            {% elseif source == 'mongodb' and dataSource in ['mongodb', 'both'] %}
+                        <h2 style="margin-top: 2vw; margin-left: 5vw" >{{ lesson.title }}</h2>
+                        <div class="row">
+                        <p  class="col" style="margin-top: 2vw; margin-left: 20vw"> {{ lesson.content }}</p>
+                        </div>
+                        <a href="{{ path('validate_lesson', { id: lesson.id, source: 'mongodb' }) }}" class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="margin-top: 3vw; margin-left: 5vw">
+                            Valider
+                        </a>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

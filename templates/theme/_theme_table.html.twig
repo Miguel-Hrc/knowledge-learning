@@ -1,0 +1,8 @@
+
+{% if app.user %}
+    <a href="{{ path('app_detail_theme', { id: theme.id }) }}">
+            <div class="card h-100 p-3 border border-1 border-black" style="width:15vw">
+                    <h5 class="card-title mb-1 fw-light">{{ theme.name }}</h5>
+            </div>
+    </a>
+{% endif %}

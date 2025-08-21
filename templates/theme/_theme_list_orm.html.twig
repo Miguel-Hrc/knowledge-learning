@@ -1,0 +1,29 @@
+{% for theme in themes %}
+    <div id="container" class="row" style="margin: 1vw; background-color: #FFFFFF">
+        {{ form_start(edit_theme_forms['orm'][theme.id], { 'enctype': 'multipart/form-data' }) }}
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="row mb-3">
+                        <div class="col-md-12 ">
+                            <p>nom du thème :</p>
+                            {{ form_widget(edit_theme_forms['orm'][theme.id].name,{  'attr': {  style:"width: 35vw;"} })}}
+                        </div>
+                        <input type="hidden" name="theme_form[form_type]" value="edit">
+                        <input type="hidden" name="theme_form[edit_theme_id]" value="{{ theme.id }}">
+                        <input type="hidden" name="storage" value="orm">
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button  class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh">modifier</button>
+                        {{ form_row(edit_theme_forms['orm'][theme.id]._token) }}
+                        {{ form_end(edit_theme_forms['orm'][theme.id], { 'render_rest': false }) }}
+                        <form method="post" action="{{ path('app_admin') }}" onsubmit="return confirm('Voulez-vous supprimer cet utilisateur ?');">
+                            <input type="hidden" name="delete_theme_id" value="{{ theme.id }}">
+                            <input type="hidden" name="db" value="orm">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ theme.id) }}">
+                            <button  class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh">supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endfor %}

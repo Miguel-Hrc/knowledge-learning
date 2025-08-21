@@ -1,0 +1,12 @@
+    <h2 class="col d-flex justify-content-center align-items-center">{{ theme.name }}</h2>
+    <div class="row">
+        {% for course in courses %}
+            <div class="col-6 d-flex justify-content-center">
+                <div id="container" class="row" style="margin: 5vw; background-color: #FFFFFF; width: 45vw; padding-bottom: 10vh">
+                   {% include 'course/_course_table_orm.html.twig' with { course: course} %}
+                </div>
+            </div>
+        {% else %}
+            <p>aucun cursus disponible.</p>
+        {% endfor %}
+    </div>

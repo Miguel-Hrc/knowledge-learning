@@ -1,0 +1,104 @@
+{% for lesson in lessonsMongo %}
+    <div id="container" class="row" style="margin: 1vw; background-color: #FFFFFF">
+        {{ form_start(edit_lesson_forms['mongo'][lesson.id], { 'enctype': 'multipart/form-data' }) }}
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <p>nom de la leçon :</p>
+                            {{ form_widget(edit_lesson_forms['mongo'][lesson.id].title,{  'attr': {  style:"width: 25vw;"} })}}
+                        </div>
+                        <div class="col-md-4">
+                            <p>prix de la leçon :</p>
+                            {{ form_widget(edit_lesson_forms['mongo'][lesson.id].price,{  'attr': {  style:"width: 25vw;"} })}}
+                        </div>
+                        <div class="col-md-4">
+                            <p>cursus d'affilliation :</p>
+                            {{ form_widget(edit_lesson_forms['mongo'][lesson.id].course,{  'attr': {  style:"width: 25vw;"} })}}
+                        </div>
+                        <div class="row">
+                        <p>contenu de la leçon :</p>
+                        {{ form_widget(edit_lesson_forms['mongo'][lesson.id].content,{  'attr': {  style:"width: 75vw;"} })}}
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <p>vidéo de la leçon :</p>
+                            {% if lesson.videoName %}
+                                <video id="video-preview-{{ lesson.id }}" controls style="max-width:300px;">
+                                    <source src="{{ asset('uploads/videos/' ~ lesson.videoName) }}" type="video/mp4">
+                                    Votre navigateur ne supporte pas la vidéo.
+                                </video>
+                            {% else %}
+                                <p>aucune vidéo</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                           <p>vidéo de la leçon :</p>
+                            <button type="button" class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh"
+                                onclick="document.getElementById('file-input-{{ lesson.id }}').click();">
+                                choisir une vidéo
+                            </button>
+                            <span ="selected-video-name-{{ lesson.id }}" class="ms-2 text-muted"></span>
+
+                            <input
+                                type="file"
+                                id="file-input-{{ lesson.id }}"
+                                name="{{ edit_lesson_forms['mongo'][lesson.id].videoFile.vars.full_name }}"
+                                class="d-none"
+                                accept="video/*">
+                        </div>
+                    </div>
+                        <input type="hidden" name="lesson_form[form_type]" value="edit">
+                        <input type="hidden" name="lesson_form[edit_lesson_id]" value="{{ lesson.id }}">
+                        <input type="hidden" name="storage" value="mongo">
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button  class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh">modifier</button>
+                        {{ form_row(edit_lesson_forms['mongo'][lesson.id]._token) }}
+                        {{ form_end(edit_lesson_forms['mongo'][lesson.id], { 'render_rest': false }) }}
+                        <form method="post" action="{{ path('app_admin') }}" onsubmit="return confirm('Voulez-vous supprimer cet utilisateur ?');">
+                            <input type="hidden" name="delete_lesson_id" value="{{ lesson.id }}">
+                            <input type="hidden" name="db" value="mongo">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ lesson.id) }}">
+                            <button  class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh">supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endfor %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('input[type="file"][id^="file-input-"]').forEach(input => {
+                const lessonId = input.id.replace('file-input-', '');
+                const label = document.getElementById('selected-video-name-' + lessonId);
+                const video = document.getElementById('video-preview-' + lessonId);
+                const source = video ? video.querySelector('source') : null;
+
+                input.addEventListener('change', function () {
+                    if (this.files && this.files[0]) {
+                        label.textContent = this.files[0].name;
+
+                        if (video && source) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                source.src = e.target.result;
+                                video.load();
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                        }
+                    } else {
+                        label.textContent = '';
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+

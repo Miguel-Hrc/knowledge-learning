@@ -1,0 +1,37 @@
+{% for user in usersMongo %}
+    <div id="container" class="row" style="margin: 1vw; background-color: #FFFFFF">
+        {{ form_start(edit_forms['mongo'][user.id], { 'enctype': 'multipart/form-data' }) }}
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="row mb-3">
+                        <div class="col-md-6 ">
+                            <p>email :</p>
+                            {{ form_widget(edit_forms['mongo'][user.id].email,{  'attr': {  style:"width: 35vw;"} })}}
+                        </div>
+                        <div class="col-md-6">
+                            <p>mot de passe :</p>
+                            {{ form_widget(edit_forms['mongo'][user.id].password,{  'attr': {  style:"width: 35vw;"}}) }}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <p>email vérifié :</p>
+                        {{ form_row(edit_forms['mongo'][user.id].isVerified,
+                            { label: false, attr: { disabled: 'disabled' }} ) }}
+                        <input type="hidden" name="user_form[form_type]" value="edit">
+                        <input type="hidden" name="user_form[edit_id]" value="{{ user.id }}">
+                        <input type="hidden" name="storage" value="mongo">
+                        
+                        <button  class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh">modifier</button>
+                        {{ form_row(edit_forms['mongo'][user.id]._token) }}
+                        {{ form_end(edit_forms['mongo'][user.id], { 'render_rest': false }) }}
+                        <form method="post" action="{{ path('app_admin') }}" onsubmit="return confirm('Voulez-vous supprimer cet utilisateur ?');">
+                            <input type="hidden" name="delete_id" value="{{ user.id }}">
+                            <input type="hidden" name="db" value="mongo">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                            <button  class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh">supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endfor %}

@@ -1,0 +1,13 @@
+
+                <h3 class=" d-flex justify-content-center align-items-center" >{{ course.title }}</h3>
+                <p class=" d-flex justify-content-center align-items-center">{{ course.price }}€</p>
+                    <div class="row">
+                            {% for lesson in course.lessons %}
+                                <div class="col-12 d-flex justify-content-center">
+                                    <div id="container" class="row text-center" style="margin: 2vh; background-color: #F1F8FC; width: 25vw; padding-bottom: 2vh">
+                                        {% include 'lesson/_lesson_table_orm.html.twig' with { lesson: lesson } %}
+                                    </div>
+                                </div>
+                        {% endfor %}
+                    </div>
+                <a href="{{ path('cart_add_course', { id: course.id }) }}" class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="margin-top: 1vh; margin-left: 30%">acheter</a>

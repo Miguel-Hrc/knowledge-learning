@@ -1,0 +1,75 @@
+{{ form_start(add_lesson_form, {
+    'enctype': 'multipart/form-data',
+    'attr': {'id': 'add-form'}
+}) }}
+    <div class="row align-items-center">
+        <div class="col-md-12">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <p>nom de la leçon :</p>
+                    {{ form_label(add_lesson_form.title, null, { label: false} ) }}
+                    {{ form_widget(add_lesson_form.title, { 'attr': {  style:"width: 25vw;"}}) }}
+                    {{ form_errors(add_lesson_form.title) }}
+                </div>
+                <div class="col-md-4">
+                    <p>prix de la leçon :</p>
+                    {{ form_label(add_lesson_form.price, null, { label: false} ) }}
+                    {{ form_widget(add_lesson_form.price, { 'attr': {  style:"width: 25vw;"}}) }}
+                    {{ form_errors(add_lesson_form.price) }}
+                </div>
+                <div class="col-md-4">
+                    <p>cursus d'affiliation :</p>
+                    {{ form_label(add_lesson_form.course, null, { label: false} ) }}
+                    {{ form_widget(add_lesson_form.course, { 'attr': {  style:"width: 25vw;"}}) }}
+                    {{ form_errors(add_lesson_form.course) }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <p>contenu de la leçon :</p>
+                    {{ form_label(add_lesson_form.content, null, { label: false} ) }}
+                    {{ form_widget(add_lesson_form.content, { 'attr': {  style:"width: 75vw;"}}) }}
+                    {{ form_errors(add_lesson_form.content) }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <p>vidéo de la leçon :</p>
+                    <button type="button" class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh" onclick="document.getElementById('add-file-input').click();">
+                        choisir une vidéo
+                    </button>
+                    <span id="selected-video-name" class="ms-2 text-muted"></span>
+                    <input 
+                        type="file" 
+                        id="add-file-input" 
+                        name="{{ add_lesson_form.videoFile.vars.full_name }}" 
+                        class="d-none" 
+                        accept="video/*">
+                </div>
+            </div>
+            <div class="d-flex justify-content-end gap-2">
+                {{ form_row(add_lesson_form._token) }}
+                <input type="hidden" name="add_lesson" value="1">
+                <input type="hidden" name="storage" value="orm">
+                <button type="submit" class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh">ajouter</button>
+            </div>
+        </div>
+    </div>
+{{ form_end(add_lesson_form, { 'render_rest': false }) }}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('add-file-input');
+            const label = document.getElementById('selected-video-name');
+
+            input.addEventListener('change', function () {
+                if (this.files.length > 0) {
+                    label.textContent = this.files[0].name;
+                } else {
+                    label.textContent = '';
+                }
+            });
+        });
+    </script>
+{% endblock %}

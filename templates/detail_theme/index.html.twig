@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail{% endblock %}
+{% block body %}
+        
+    {% if app.user %}
+        <header>
+            <div class="border-bottom-0" id="container" >
+                <div class="row d-flex justify-content-evenly align-items-center">
+                    <div class="col-md-2 d-flex flex-column">
+                        <img src="{{ asset('images/logo/logo.jpg') }}" alt="Logo" style="width: 150px; margin-left:2.5vw">
+                    </div>
+                    <div class="col-md-8">
+                        <nav class="col-md-12 d-flex justify-content-between">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_admin') }}" class="text-decoration-none">back-office</a>
+                            {% endif %}
+                            <a href="{{ path('app_home') }}" class="text-decoration-none">accueil</a>
+                            <a href="{{ path('app_list_theme') }}" class="text-decoration-none">thèmes</a>
+                            <a href="{{ path('app_my_space') }}" class="text-decoration-none">mon espace</a>
+                            <a href="{{ path('app_cart') }}" class="text-decoration-none" >panier</a>
+                            <a href="{{ path('app_logout') }}" class="text-decoration-none" >se déconnecter</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endif %}
+    <div id="container" style="padding-bottom: 15vh" >
+        <div id="container" class="row" style="margin: 5vw; background-color: #F1F8FC">
+            {% if source == 'orm' %}
+                <div class="row d-flex" >
+                            {% include 'detail_theme/_theme_table_orm.html.twig' with {
+                                theme: theme,
+                                courses: courses,
+                                lessons: lessons
+                            } %}
+                </div>
+            {% endif %}
+            {% if source == 'mongodb' %}
+                <div class="row d-flex" >
+                            {% include 'detail_theme/_theme_table_mongo.html.twig' with {
+                                themeMongo: themeMongo,
+                                coursesMongo: coursesMongo,
+                                lessonsMongo: lessonsMongo
+                            } %} 
+                </div>
+            {% endif %} 
+        </div>
+    </div>
+{% endblock %}

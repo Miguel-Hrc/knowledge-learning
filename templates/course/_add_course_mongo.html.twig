@@ -1,0 +1,35 @@
+{{ form_start(add_course_form_mongo, {
+    'enctype': 'multipart/form-data',
+    'attr': {'id': 'add-form'}
+}) }}
+<div class="row align-items-center">
+    <div class="col-md-12">
+        <div class="row mb-3">
+            <div class="col-md-4 ">
+                <p>nom du cursus :</p>
+                {{ form_label(add_course_form_mongo.title, null, { label: false} ) }}
+                {{ form_widget(add_course_form_mongo.title, { 'attr': {  style:"width: 25vw;"}}) }}
+                {{ form_errors(add_course_form_mongo.title) }}
+            </div>
+            <div class="col-md-4 ">
+                <p>prix du cursus :</p>
+                {{ form_label(add_course_form_mongo.price, null, { label: false} ) }}
+                {{ form_widget(add_course_form_mongo.price, { 'attr': {  style:"width: 25vw;"}}) }}
+                {{ form_errors(add_course_form_mongo.price) }}
+            </div>
+            <div class="col-md-4 ">
+                <p>theme d'affiliation :</p>
+                {{ form_label(add_course_form_mongo.theme, null, { label: false} ) }}
+                {{ form_widget(add_course_form_mongo.theme, { 'attr': {  style:"width: 25vw;"}}) }}
+                {{ form_errors(add_course_form_mongo.theme) }}
+            </div>
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+            {{ form_row(add_course_form_mongo._token) }}
+            <input type="hidden" name="add_course" value="1">
+            <input type="hidden" name="storage" value="mongo">
+            <button type="submit" class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="width:15vw; height:5vh">ajouter</button>
+        </div>
+    </div>
+</div>
+{{ form_end(add_course_form_mongo, { 'render_rest': false }) }}

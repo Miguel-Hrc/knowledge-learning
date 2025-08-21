@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block body %}
+{% if not app.user %}
+        <header>
+            <div class="border-bottom-0" id="container">
+                <div class="row d-flex justify-content-evenly align-items-center">
+                    <div class="col-md-2 d-flex flex-column ">
+                        <img src="{{ asset('images/logo/logo.jpg') }}" alt="Logo" style="width: 150px; margin-left:2.5vw">
+                    </div>
+                    <div class="col-md-8">
+                        <nav class=" col-md-12 d-flex justify-content-evenly  ">
+                            <a href="{{ path('app_home') }}" class="text-decoration-none">accueil</a>
+                            <a href="{{ path('app_register') }}" class="text-decoration-none">s'inscrire</a>
+                            {% set loginRoute = dataSource == 'mongodb' ? 'app_login_mongo' : 'app_login_sql' %}
+                            <a href="{{ path(loginRoute) }}" class="text-decoration-none" style="color: #00497C" >se connecter</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endif %}
+    <div id="container" style="height: 90vh" >
+        <div id="container" style="margin: 5vw; background-color: #F1F8FC; width: 50vw; margin-left:25%; padding-bottom: 15vh" >
+                    <div class="row d-flex" >
+                        <h2 class="col d-flex justify-content-center align-items-center">Se connecter</h2>
+                        <div class="row" style="margin-top: 2vh">
+                            <form method="post" action="{{ path('app_login_sql') }}">
+                                <div class="col-12 d-flex justify-content-center">
+                                    <div class="d-flex flex-column align-items-start w-50">
+                                        <p>email :</p>
+                                        <input type="text" style="width: 25vw;" name="_username">
+                                    </div>
+                                </div>
+                                <div class="col-12 d-flex justify-content-center">
+                                    <div class="d-flex flex-column align-items-start w-50">
+                                        <p>mot de passe :</p>
+                                        <input type="password" style="width: 25vw;" name="_password">
+                                    </div>
+                                </div>      
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                <div class="col-12 d-flex justify-content-center">
+                                    <div class="align-items-start w-50">
+                                        <button type="submit" class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="margin-top: 2vh">se connecter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row" style="margin-top: 2vh">
+                            <div class="col-12 d-flex justify-content-center">
+                                <div class="d-flex flex-column align-items-start w-50">
+                                    <p>pas encore isncrit ?</p>
+                                    <a href="{{ path('app_register') }}" class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="button" style="margin-top: 2vh" >créer un compte</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recréer un mot de passe{% endblock %}
+
+{% block body %}
+<div style="margin:2.5vw">
+    <h1>Recréer votre mot de passe</h1>
+
+    {{ form_start(resetForm) }}
+        {{ form_row(resetForm.plainPassword) }}
+        <button class="btn btn-primary">Recréer votre mot de passe</button>
+    {{ form_end(resetForm) }}
+</div>
+{% endblock %}
